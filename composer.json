@@ -16,5 +16,13 @@
         "psr-4": {
             "Vinnia\\Yii2\\": "src/"
         }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Vinnia\\Yii2\\Tests\\": "tests/"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^5.6"
     }
 }
