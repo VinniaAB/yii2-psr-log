@@ -26,14 +26,25 @@ composer require vinnia/yii2-psr-log
 
 ## Usage
 
-Add a log target to your yii config:
+Configure the dependency container to build `\Vinnia\Yii2\PsrTarget` with your preferred PSR-compatible logger.
+Here is an example using Monolog:
+
+```php
+Yii::$container->set(\Vinnia\Yii2\PsrTarget::class, function($container, $params, $config) {
+    $monolog = new \Monolog\Logger('app', [
+        new \Monolog\Handler\StreamHandler(STDOUT),
+    ]);
+    return new \Vinnia\Yii2\PsrTarget($monolog, $config);
+});
+```
+
+Then add a log target to your yii config:
 ```php
 return [
     ...
     'log' => [
         'targets' => [
             'class' => \Vinnia\Yii2\PsrTarget::class,
-            'logger' => \Psr\Log\LoggerInterface::class,
             'levels' => [
                 'error',
                 'warning',
@@ -43,16 +54,4 @@ return [
     ]
     ...
 ]
-```
-
-The `logger` property can be set to any class that implements `\Psr\Log\LoggerInterface`.
-
-If you have set the property to an interface (like above), remember to tell Yii how to construct it. Here is an example using Monolog:
-```php
-Yii::$container->setSingleton(\Psr\Log\LoggerInterface::class, function() {
-    $monolog = new \Monolog\Logger('app', [
-        new \Monolog\Handler\StreamHandler(STDOUT),
-    ]);
-    return $monolog;
-});
 ```

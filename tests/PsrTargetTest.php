@@ -46,11 +46,7 @@ class PsrTargetTest extends TestCase
             }
         };
 
-        \Yii::$container->set(LoggerInterface::class, $this->logger);
-
-        $this->target = new PsrTarget([
-            'logger' => $this->logger,
-        ]);
+        $this->target = new PsrTarget($this->logger);
     }
 
     public function testLogsTextMessages()

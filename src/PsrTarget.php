@@ -5,7 +5,6 @@ namespace Vinnia\Yii2;
 
 use Psr\Log\LogLevel;
 use Psr\Log\LoggerInterface;
-use yii\di\Instance;
 use yii\helpers\VarDumper;
 use yii\log\Logger;
 use yii\log\Target;
@@ -27,13 +26,18 @@ class PsrTarget extends Target
     /**
      * @var LoggerInterface
      */
-    public $logger;
+    private $logger;
 
-    public function init()
+    /**
+     * PsrTarget constructor.
+     * @param LoggerInterface $logger
+     * @param array $config
+     */
+    function __construct(LoggerInterface $logger, array $config = [])
     {
-        parent::init();
+        parent::__construct($config);
 
-        $this->logger = Instance::ensure([$this, 'logger'], LoggerInterface::class);
+        $this->logger = $logger;
     }
 
     /**
